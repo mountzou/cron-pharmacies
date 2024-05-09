@@ -3,9 +3,8 @@ name: Scrape Drug Stores On Duty
 
 on:
   schedule:
-    # Schedule the job to run every 10 minutes
-    - cron: "*/10 * * * *"
-  workflow_dispatch:
+    - cron: "*/10 * * * *"  # Schedule the job to run every 10 minutes
+  workflow_dispatch:  # Allows manual triggering of the workflow
 
 jobs:
   scrape_job:
@@ -23,7 +22,13 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install requests beautifulsoup4
+        pip install -r requirements.txt
+
+    - name: Set up Firebase credentials
+      env:
+        FIREBASE_CREDENTIALS_JSON: ${{ secrets.FIREBASE_CREDENTIALS_JSON }}
+      run: |
+        echo "$FIREBASE_CREDENTIALS_JSON" > firebase_credentials.json
 
     - name: Run Python script
       run: |
