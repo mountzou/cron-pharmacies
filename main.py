@@ -53,33 +53,13 @@ def scrape_drug_stores():
 
     return headers, drug_stores
 
-# Function to write data to CSV
-def save_to_csv(headers, data):
-    # Get today's date
-    today = datetime.today().strftime('%Y-%m-%d')
-
-    # Define the filename
-    filename = f"drug_stores_on_duty_{today}.csv"
-
-    # Write to CSV
-    with open(filename, mode='w', newline='', encoding='utf-8') as file:
-        writer = csv.DictWriter(file, fieldnames=headers)
-        writer.writeheader()
-        writer.writerows(data)
-
-    print(f"Data successfully saved to {filename}")
-
-# Function to write data to Firestore
 def save_to_firestore(data):
-    # Get today's date
     today = datetime.today().strftime('%Y-%m-%d')
 
-    # Upload data to Firestore
     db.collection("drug_stores").document(today).set({"stores": data})
     print(f"Data successfully saved to Firestore under collection 'drug_stores' and document '{today}'.")
 
 # Usage example
 if __name__ == "__main__":
     headers, drug_stores_on_duty = scrape_drug_stores()
-    save_to_csv(headers, drug_stores_on_duty)
     save_to_firestore(drug_stores_on_duty)
