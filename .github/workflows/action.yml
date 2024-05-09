@@ -3,8 +3,8 @@ name: Scrape Drug Stores On Duty
 
 on:
   schedule:
-    - cron: "*/10 * * * *"  # Schedule the job to run every 10 minutes
-  workflow_dispatch:  # Allows manual triggering of the workflow
+    - cron: "0 */4 * * *"
+  workflow_dispatch:
 
 jobs:
   scrape_job:
